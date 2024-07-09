@@ -131,12 +131,11 @@ def to_dataset(folder: str, name: str, description: str = None, **kwargs) -> Non
 
     ds = Dataset.from_dict(data_dict, info=info)
     ds = ds.with_format("pandas")
-    # login(os.getenv("HF_TOKEN"))
-    # ds.push_to_hub(name, **kwargs)
+    ds.push_to_hub(name, private=True, **kwargs)
 
 
 def main():
-    to_dataset("xarm_dataset_test", "mbodiai/xarm_7_6_delta", description="XArm dataset")
+    to_dataset("xarm_dataset_test", "mbodiai/xarm_overfit", description="XArm dataset")
 
 
 if __name__ == "__main__":
