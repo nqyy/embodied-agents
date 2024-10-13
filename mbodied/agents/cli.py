@@ -1,4 +1,5 @@
-import click
+import rich_click as click
+# import click
 
 from mbodied.agents.language import LanguageAgent
 from mbodied.agents.sense.depth_estimation_agent import DepthEstimationAgent
@@ -10,11 +11,32 @@ from mbodied.types.sense.world import BBox2D, PixelCoords
 
 @click.group()
 def cli() -> None:
-    """CLI for various AI agents."""
+    """CLI for various AI agents.
+
+    \b
+    Available agents:
+
+    \b
+    - LanguageAgent: Interacts with model using natural language.
+    - ObjectDetectionAgent: Detects objects in an image.
+    - DepthEstimationAgent: Estimates depth from an image.
+    - SegmentationAgent: Segments objects in an image.
+
+    \b
+    Example Usage:
+
+    $ mbodied chat --model-src=openai --api-key=your_api_key --context="you are a robot." --instruction="what do you see in the image?" --image-path=$IMAGE_FILENAME
+
+    $ mbodied estimate_depth $IMAGE_FILENAME
+
+    $ mbodied detect_objects $IMAGE_FILENAME  --objects="bowl, brush" --model-type=YOLOWorld
+
+    $ mbodied segment $IMAGE_FILENAME --segment-type=coords --segment-input=200,300
+    """
     pass
 
 
-@cli.command("language_chat")
+@cli.command("chat")
 @click.option(
     "--model-src",
     default="openai",
@@ -24,8 +46,8 @@ def cli() -> None:
 @click.option("--context", default=None, help="Starting context for the conversation.")
 @click.option("--instruction", prompt="Instruction", help="Instruction for the LanguageAgent.")
 @click.option("--image-path", default=None, help="Optional path to the image file.")
-def language_chat(model_src, api_key, context, instruction, image_path) -> None:
-    """Run the LanguageAgent to interact with users using natural language."""
+def chat(model_src, api_key, context, instruction, image_path) -> None:
+    """Run the LanguageAgent to interact with models using natural language."""
     agent = LanguageAgent(model_src=model_src, api_key=api_key, context=context)
     image = Image(image_path) if image_path else None
     response = agent.act(instruction=instruction, image=image, context=context)
