@@ -1,5 +1,4 @@
 import rich_click as click
-# import click
 
 from mbodied.agents.language import LanguageAgent
 from mbodied.agents.sense.depth_estimation_agent import DepthEstimationAgent
